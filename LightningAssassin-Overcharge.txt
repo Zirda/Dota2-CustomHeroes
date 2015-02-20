@@ -1,0 +1,104 @@
+	//=================================================================================================================
+	// Lightning Assassin: Overcharged
+	//=================================================================================================================
+	"lightning_assassin_overcharged"
+	{
+		// General
+		//-----------------------------------------------------------------------------------------------------------------------
+		"AbilityName"			"lightning_assassin_overcharged"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMIDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"		"sven_warcry"
+		
+	
+		// Stats
+		//-----------------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"		"10 10 10 10"
+		"AbilityManaCost"		"20 20 20 20"
+		
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"		"CASTER"
+				"ModifierName"	"lightning_assassin_overcharged"
+			}
+		}
+	
+		"Modifiers"
+		{
+			"lightning_assassin_overcharged"
+			{
+				"IsBuff"		"1"
+				"Duration"		"%overcharged_duration"
+				"EffectName"	"particles/items2_fx/mask_of_madness.vpcf"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"		"%overcharged_bonus_attack_speed"
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"		"%overcharged_bonus_movement_speed"
+				}
+				
+				"OnDestroy"
+				{
+					"ApplyModifier"
+					{
+					"ModifierName"		"lightning_assassin_withdraw"
+					"Target"			"CASTER"
+					}
+				}
+			}
+			"lightning_assassin_withdraw"
+			{
+				"IsDebuff"		"1"
+				"Duration"		"%withdraw_duration"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"		"%withdraw_bonus_attack_speed"
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"		"%withdraw_bonus_movement_speed"
+				}
+			
+			
+			}
+			
+		}
+	
+	
+		// special
+		//-----------------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"overcharged_bonus_attack_speed"	"70 120 170 220"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"overcharged_bonus_movement_speed"	"35 40 45 50"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"overcharged_duration"			"4.5 5 5.5 6"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"withdraw_bonus_attack_speed"	"-50 -85 -120 -150"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"withdraw_bonus_movement_speed"	"-20 -25 -30 -35"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"withdraw_duration"			"2.25 2.5 2.75 3"
+			}
+		}
+	
+	
+	
+	}

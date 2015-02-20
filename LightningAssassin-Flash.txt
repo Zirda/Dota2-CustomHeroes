@@ -1,0 +1,119 @@
+	//=================================================================================================================
+	// Lightning Assassin: Lightning Flash
+	//=================================================================================================================
+	"lightning_assassin_flash"
+	{
+			// General
+			//----------------------------------------------------------------------
+			"AbilityName"		"lightning_assassin_flash"
+			"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_AOE"
+			"AbilityTextureName"	"sven_storm_bolt"
+			"BaseClass"			"ability_datadriven"
+	
+			//Casting
+			"AbilityCastPoint"		"0.5"
+			"AbilityCooldown"		"6"
+			"AbilityManaCost"		"50"
+			"AbilityDamage"			"75 125 175 225"
+			"AOERadius"				"300 350 400 450"
+			//Special
+			"AbilitySpecial"
+			{
+				"01"
+				{
+					"var_type"		"FIELD_INTEGER"
+					"AbilityRadius"	"300 350 400 450"
+				}
+				"02"
+				{
+					"var_type"		"FIELD_INTEGER"
+					"DayVision"		"-50 -100 -150 -200"
+				}
+				"03"
+				{
+					"var_type"		"FIELD_INTEGER"
+					"NightVision"	"-75 -125 -200 -275"
+				}
+				"04"
+				{
+					"var_type"		"FIELD_INTEGER"
+					"MissChance"	"20 30 40 50"
+				}
+				"05"
+				{
+					"var_type"		"FIELD_FLOAT"
+					"duration"		"2.5 3 3.5 4"
+				}
+			}
+	
+	
+			"precache"
+				{
+					"particle" "particles/econ/items/abaddon/abaddon_alliance/abaddon_aphotic_shield_alliance_explosion.vpcf" //AOE
+					"particle"	"particles/generic_gameplay/generic_stunned.vpcf" //Marker
+				}
+
+			//Data Driven
+			//-------------------------------------------------------------------------------------------------------------------------------------
+			
+			"OnSpellStart"
+			{
+				"FireEffect"
+				{
+					"EffectName"	"particles/econ/items/abaddon/abaddon_alliance/abaddon_aphotic_shield_alliance_explosion.vpcf"
+					"EffectAttachType"	"follow_origin"
+					"Target"	"CASTER"
+					
+				}
+				"Damage"
+				{
+					"Target"
+					{
+						"center"	"CASTER"
+						"Radius"	"%AbilityRadius"
+						"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types"		"DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+					}
+					"Type"	"DAMAGE_TYPE_MAGICAL"
+					"Damage"	"%AbilityDamage"
+				}
+				
+				"ApplyModifier"
+					{
+						"Target"
+						{
+							"center"	"CASTER"
+							"Radius"	"%AbilityRadius"
+							"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types"		"DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+						}
+						"ModifierName"	"flash_blind"
+					}
+			}
+			
+			"Modifiers"
+			{
+				"flash_blind"
+				{
+					"IsDebuff"	"1"
+					"Duration" "%duration"
+					"Properties"
+					{
+						"MODIFIER_PROPERTY_BONUS_DAY_VISION"	"%DayVision"
+						"MODIFIER_PROPERTY_BONUS_NIGHT_VISION"	"%NightVision"
+						"MODIFIER_PROPERTY_MISS_PERCENTAGE"		"%MissChance"
+					}
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"	"particles/generic_gameplay/generic_stunned.vpcf"
+						"EffectAttachType"	"follow_origin"
+						"Target"	"TARGET"
+					}
+				}
+				}
+			}
+	
+	}
+	
